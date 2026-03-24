@@ -1,0 +1,32 @@
+#!/bin/zsh
+# Show all claude-* commands and usage tips
+
+cat <<'EOF'
+Claude Code Session Manager
+============================
+
+Terminal commands:
+  claude-start [name]    Start and attach to a session (default: claude)
+  claude-attach [name]   Attach to an existing session
+  claude-detach [name]   Detach from a session (run from another terminal)
+  claude-stop [name]     Stop a session
+  claude-ls              List all running sessions
+  claude-help            Show this help
+
+In-session slash commands:
+  /claude-hide           Send current session to background
+  /claude-ls             List all running sessions
+  /claude-switch <name>  Switch to another session
+  /claude-stop [name]    Stop a session
+
+Examples:
+  claude-start                Start default session
+  claude-start coding         Start a "coding" session
+  claude-start chat           Start a "chat" session
+  claude-attach coding        Reconnect to "coding"
+
+Notes:
+  - Each session runs with Remote Control + Telegram channel
+  - Closing the terminal window does NOT stop sessions
+  - Use /claude-hide inside a session to go back to terminal
+EOF

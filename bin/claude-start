@@ -1,0 +1,33 @@
+#!/bin/zsh
+# Start Claude Code with Remote Control + Telegram in a tmux session
+# Usage: claude-start [-y] [session-name]
+#   -y   Skip all permission prompts (dangerously-skip-permissions)
+
+SKIP_PERMS=false
+SESSION="claude"
+
+for arg in "$@"; do
+  case "$arg" in
+    -y) SKIP_PERMS=true ;;
+    *)  SESSION="$arg" ;;
+  esac
+done
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then
+  echo "Session '$SESSION' already running, attaching..."
+  tmux attach -t "$SESSION"
+  exit 0
+fi
+
+CMD="claude --remote-control --channels plugin:telegram@claude-plugins-official --name $SESSION"
+if $SKIP_PERMS; then
+  CMD="$CMD --dangerously-skip-permissions"
+fi
+
+tmux new-session -d -s "$SESSION" -c "$PWD" "$CMD"
+
+# Auto-confirm the workspace trust prompt
+sleep 2
+tmux send-keys -t "$SESSION" Enter
+
+tmux attach -t "$SESSION"

@@ -1,0 +1,12 @@
+#!/bin/zsh
+# Detach from a Claude tmux session (run from another terminal)
+# Usage: claude-detach [session-name]
+
+SESSION="${1:-claude}"
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then
+  tmux detach-client -t "$SESSION"
+  echo "Detached from session '$SESSION'."
+else
+  echo "No session '$SESSION' running."
+fi

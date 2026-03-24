@@ -1,0 +1,11 @@
+#!/bin/zsh
+# Attach to a Claude tmux session
+# Usage: claude-attach [session-name]
+
+SESSION="${1:-claude}"
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then
+  tmux attach -t "$SESSION"
+else
+  echo "No session '$SESSION' running. Use 'claude-start $SESSION' to start one."
+fi

@@ -1,0 +1,12 @@
+#!/bin/zsh
+# Stop a Claude tmux session
+# Usage: claude-stop [session-name]
+
+SESSION="${1:-claude}"
+
+if tmux has-session -t "$SESSION" 2>/dev/null; then
+  tmux kill-session -t "$SESSION"
+  echo "Session '$SESSION' stopped."
+else
+  echo "No session '$SESSION' running."
+fi
